@@ -10,7 +10,7 @@ const default_data = {
     capitalization: 0,
     clients: 0,
     office: offices.garage,
-    name: "Super company",
+    name: "название",
     productCost: 10,
     employees: [hireEmployee("ceo")]
 }
