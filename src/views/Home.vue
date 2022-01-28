@@ -11,7 +11,7 @@
         Зарплата: {{ employee.salary }} <br/>
         Уровень: {{ employee.tier }} <br/>
       </div>
-      Текущая капитализация: {{ state_company.balance }} <br/>
+      Текущий баланс: {{ state_company.balance }} <br/>
       Ожидаемый доход: {{ state_company.income() }} <br/>
       Клиенты: {{ state_company.clients }} <br/>
       <div style="background: #ccc;">
