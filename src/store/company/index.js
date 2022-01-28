@@ -11,6 +11,13 @@ const state_company = reactive({
     balance: default_data.balance,
     clients: default_data.clients,
 
+    income: function() {
+        let income = default_data.productCost * this.clients
+        return {
+            income
+        }
+    },
+
     regular_expenses: function() {
         let officeExpenses = this.office.expenses 
 
@@ -20,7 +27,7 @@ const state_company = reactive({
         })
 
         let expenses = officeExpenses + employeesExpenses
-        
+
         return {
             expenses
         }

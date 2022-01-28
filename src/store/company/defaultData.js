@@ -11,6 +11,7 @@ const default_data = {
     clients: 0,
     office: offices.garage,
     name: "Super company",
+    productCost: 10,
     employees: [hireEmployee("ceo")]
 }
 
