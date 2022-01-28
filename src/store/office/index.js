@@ -1,6 +1,8 @@
 const offices = {
     garage: {
-        expenses: 5000
+        expenses: 5000,
+        name: "Гараж",
+        size: 5,
     }
 }
 

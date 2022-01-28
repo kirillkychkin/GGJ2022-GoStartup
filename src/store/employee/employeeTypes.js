@@ -2,6 +2,7 @@ let employee_types = {
     ceo: {
         salary: 1000,
         type: "ceo",
+        tier: 1,
     },
     marketer1: {
         salary: 500,
