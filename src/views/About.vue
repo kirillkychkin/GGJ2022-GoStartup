@@ -12,7 +12,7 @@ const { state_company } = useCompany()
 
 export default {
   setup() {
-    console.log(state_company.expenses())
+    console.log(state_company.regular_expenses())
     return {
       state_company
     }
