@@ -10,6 +10,7 @@ const state_company = reactive({
     capitalization: default_data.capitalization,
     balance: default_data.balance,
     clients: default_data.clients,
+    performed_tasks: {},
 
     income: function() {
         let income = default_data.productCost * this.clients
@@ -28,6 +29,27 @@ const state_company = reactive({
 
         return expenses
     },
+
+    task_expenses: function() {
+        let tasklist = this.performed_tasks
+        let expenses = 0
+        for(let task in tasklist) {
+            expenses += tasklist[task].additional_expenses
+        }
+        return expenses
+    },
+
+    expenses: function() {
+        let expenses = this.regular_expenses() + this.task_expenses()
+        return expenses
+    },
+
+    next_balance: function() {
+        let balance = this.balance
+        balance += this.income()
+        balance -= this.expenses()
+        this.balance = balance
+    }
 })
 
 export default function() {

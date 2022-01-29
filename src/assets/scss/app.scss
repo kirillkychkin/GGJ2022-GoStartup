@@ -19,3 +19,12 @@
       }
     }
   }
+
+  .card-grey {
+    background: $color_grey;
+    margin-bottom: 10px;
+  }
+
+  .active {
+    background: $color_green;
+  }

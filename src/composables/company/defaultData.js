@@ -8,10 +8,10 @@ const { hireEmployee } = employee()
 const default_data = {
     balance: 200000,
     capitalization: 0,
-    clients: 0,
+    clients: 4,
     office: offices.garage,
     name: "название",
-    productCost: 10,
+    productCost: 1000,
     employees: [hireEmployee("ceo")]
 }
 
