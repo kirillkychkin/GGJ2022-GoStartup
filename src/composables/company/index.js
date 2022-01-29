@@ -1,6 +1,6 @@
-import { reactive } from "vue";
+import { reactive } from "vue"
 
-import defaultData from '@/store/company/defaultData'
+import defaultData from '@/composables/company/defaultData'
 const { default_data } = defaultData()
 
 const state_company = reactive({

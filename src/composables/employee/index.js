@@ -1,4 +1,4 @@
-import employeeTypes from '@/store/employee/employeeTypes'
+import employeeTypes from '@/composables/employee/employeeTypes'
 const { employee_types } = employeeTypes()
 
 function hireEmployee(emp) {

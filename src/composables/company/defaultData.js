@@ -1,8 +1,8 @@
-import officesStore from '@/store/office'
+import officesStore from '@/composables/office'
 const { offices } = officesStore()
 
 
-import employee from '@/store/employee'
+import employee from '@/composables/employee'
 const { hireEmployee } = employee()
 
 const default_data = {
