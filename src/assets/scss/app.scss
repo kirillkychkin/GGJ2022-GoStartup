@@ -20,6 +20,13 @@
     }
   }
 
+  .dashboard {
+    display: flex;
+    .block {
+      width: 25vw;
+    }
+  }
+
   .card-grey {
     background: $color_grey;
     margin-bottom: 10px;

@@ -12,6 +12,14 @@ const state_company = reactive({
     clients: default_data.clients,
     performed_tasks: {},
 
+    has_roles: function() {
+        let roles = []
+        for(let employee in this.employees) {
+            roles.push(this.employees[employee].type)
+        }
+        return roles
+    },
+
     income: function() {
         let income = default_data.productCost * this.clients
         return income

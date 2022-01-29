@@ -19,10 +19,33 @@ function getTasks(stage) {
     return tasklist
 }
 
+function checkTask(employees, needed_employees) {
+    let difference = needed_employees.filter(x => !employees.includes(x))
+    if(difference.length) {
+        return {
+            can_do: false,
+            difference: difference
+        }
+    } else {
+        return {
+            can_do: true
+        }
+    }
+}
+
 function chooseTask(task, add) {
     if(add) {
-        state_company.performed_tasks[task.code_name] = task
-        task.active = true
+        let check_result = checkTask(state_company.has_roles(), task.required_roles) 
+        if(check_result.can_do) {
+            state_company.performed_tasks[task.code_name] = task
+            task.active = true
+        } else {
+            let desc = "Не хватает специалистов: \n"
+            check_result.difference.forEach(role => {
+                desc = desc + role + "\n"
+            })
+            alert(desc)
+        }
     } else {
         delete state_company.performed_tasks[task.code_name]
         task.active = false

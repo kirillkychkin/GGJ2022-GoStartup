@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <div style="display:flex;">
-      <div>
+    <img alt="Vue logo" src="../assets/logo.png" style="width:300px">
+    <div class="dashboard">
+      <div class="block">
         <h2>
           Данные компании:
         </h2>
@@ -25,12 +25,12 @@
           Стоимость офиса (входит в расходы): {{ state_company.office.expenses }} <br/>
         </div>
       </div>
-      <div>
+      <div class="block">
         <h2>
           Доступные задания:
         </h2>
         <!-- Здесь 1 - передаваемый аргумент стадии -->
-        <div class="card-grey" v-for="task in getTasks(0)" :key="task.id" @click="chooseTask(task, true)" :class="{ 'active': task.active }">
+        <div class="card-grey" v-for="task in getTasks(0)" :key="task.id" :class="{ 'active': task.active }">
           Название: {{ task.name }} <br/>
           Описание: {{ task.desc }} <br/>
           Тип: {{ task.type }} <br/>
@@ -45,7 +45,7 @@
           </button>
         </div>
       </div>
-      <div>
+      <div class="block">
         <h2>
           Выполняемые задания:
         </h2>
@@ -64,7 +64,7 @@
           </button>
         </div>
       </div>
-      <div>
+      <div class="block">
         <h2>
           Игровые данные:
         </h2>
