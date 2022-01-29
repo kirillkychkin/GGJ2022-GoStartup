@@ -19,12 +19,54 @@ function getTasks(stage) {
     return tasklist
 }
 
-function checkTask(employees, needed_employees) {
-    let difference = needed_employees.filter(x => !employees.includes(x))
-    if(difference.length) {
+function checkTask(employeesOrig, needed_employees) {
+    let employees = [...employeesOrig];
+    let required_roles = []
+    needed_employees.forEach(emp => {
+        let role = emp.substring(0, emp.length-1)
+        let tier = parseInt(emp.substring(emp.length-1))
+        required_roles.push({
+            role: role,
+            tier: tier,
+        })
+    })
+    needed_employees = required_roles
+    
+    firstLoop:
+    for(let i = 0; i < needed_employees.length; ++i) {
+        for(let j = 0; j < employees.length; ++j) {
+            console.log(needed_employees[i].role,employees[j].role )
+            if(needed_employees[i].role == employees[j].role && needed_employees[i].tier == employees[j].tier) {
+                employees.splice(j,1)
+                let index = required_roles.indexOf(needed_employees[i])
+                required_roles.splice(index,1)
+                --i
+                continue firstLoop
+            }
+        }
+    }
+
+    secLoop:
+    for(let i = 0; i < needed_employees.length; ++i) {
+        for(let j = 0; j < employees.length; ++j) {
+            console.log(needed_employees[i].role,employees[j].role )
+            if(needed_employees[i].role == employees[j].role && needed_employees[i].tier <= employees[j].tier) {
+                employees.splice(j,1)
+                let index = required_roles.indexOf(needed_employees[i])
+                required_roles.splice(index,1)
+                --i
+                continue secLoop
+            }
+        }
+    }
+
+    console.log(employees)
+    console.log(needed_employees)
+
+    if(needed_employees.length) {
         return {
             can_do: false,
-            difference: difference
+            difference: needed_employees
         }
     } else {
         return {
@@ -35,14 +77,14 @@ function checkTask(employees, needed_employees) {
 
 function chooseTask(task, add) {
     if(add) {
-        let check_result = checkTask(state_company.has_roles(), task.required_roles) 
+        let check_result = checkTask(state_company.employees, task.required_roles) 
         if(check_result.can_do) {
             state_company.performed_tasks[task.code_name] = task
             task.active = true
         } else {
             let desc = "Не хватает специалистов: \n"
-            check_result.difference.forEach(role => {
-                desc = desc + role + "\n"
+            check_result.difference.forEach(pos => {
+                desc = desc + pos.role + pos.tier + "\n"
             })
             alert(desc)
         }

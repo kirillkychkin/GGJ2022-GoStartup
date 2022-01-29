@@ -11,7 +11,7 @@ let task_list = reactive({
             progress: 0,
             additional_expenses: 0,
             required_roles: [
-                "ceo",
+                "ceo1",
                 "designer2",
             ],
             complexity: 1,

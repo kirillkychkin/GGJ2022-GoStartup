@@ -1,4 +1,7 @@
 @import 'variables';
+body {
+  margin: 0;
+}
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -8,8 +11,6 @@
   }
   
   #nav {
-    padding: 30px;
-  
     a {
       font-weight: bold;
       color: #2c3e50;
@@ -22,8 +23,12 @@
 
   .dashboard {
     display: flex;
+    flex-wrap: wrap;
     .block {
       width: 25vw;
+    }
+    .wide-block {
+      width: 50vw;
     }
   }
 
@@ -34,4 +39,14 @@
 
   .active {
     background: $color_green;
+  }
+
+  .flex {
+    display: flex;
+    h4 {
+      margin: 0;
+    }
+    div {
+      margin: 0 10px;
+    }
   }

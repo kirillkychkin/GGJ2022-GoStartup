@@ -3,6 +3,12 @@ import { reactive } from "vue"
 import defaultData from '@/composables/company/defaultData'
 const { default_data } = defaultData()
 
+import employee from '@/composables/employee'
+const { hireEmployee } = employee()
+
+import employeeTypes from '@/composables/employee/employeeTypes'
+const { employee_types } = employeeTypes()
+
 const state_company = reactive({
     name: default_data.name,
     employees: default_data.employees,
@@ -11,6 +17,36 @@ const state_company = reactive({
     balance: default_data.balance,
     clients: default_data.clients,
     performed_tasks: {},
+
+    filter_roles: function(role) {
+        state_company.employees.filter(emp => emp.role == role)
+        return state_company.employees.filter(emp => emp.role == role)
+    },
+
+    can_hire: function(employee) {
+        let taken_positions = this.filter_roles(employee_types[employee].role)
+        if(taken_positions.length < 5) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    hire_employee: function(role,start) {
+        if(start) {
+            this.employees.push(hireEmployee(role))
+        } else {
+            let verify = confirm("Нанять " + role + "?")
+            if(verify) {
+                if(this.can_hire(role)) {
+                    this.employees.push(hireEmployee(role))
+                } else {
+                    alert("Слишком много сотрудников этого типа")
+                }
+            }
+        }
+    },
+
 
     has_roles: function() {
         let roles = []
@@ -25,17 +61,22 @@ const state_company = reactive({
         return income
     },
 
-    regular_expenses: function() {
-        let officeExpenses = this.office.expenses 
-
+    salaries: function() {
         let employeesExpenses = 0
         this.employees.forEach(employee => {
             employeesExpenses+= employee.salary
         })
+        return employeesExpenses
+    },
 
-        let expenses = officeExpenses + employeesExpenses
-
+    regular_expenses: function() {
+        let expenses = this.office_rent() + this.salaries()
         return expenses
+    },
+
+    office_rent: function() {
+        let officeExpenses = this.office.expenses 
+        return officeExpenses
     },
 
     task_expenses: function() {
