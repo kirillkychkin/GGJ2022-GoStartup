@@ -4,6 +4,7 @@ let task_list = reactive({
     stage0: {
         task1: {
             code_name: "task1",
+            stage: "stage0",
             name: 'some task',
             type: 'major',
             desc: 'описание задания 1',
@@ -15,8 +16,8 @@ let task_list = reactive({
                 "designer2",
             ],
             assigned_employees: {
-                ceo1: "",
-                designer2: "",
+                ceo1: "null",
+                designer2: "null",
             },
             complexity: 1,
             reward: {
@@ -28,6 +29,7 @@ let task_list = reactive({
         },
         task2: {
             code_name: "task2",
+            stage: "stage0",
             name: 'some other task',
             type: 'side',
             desc: 'описание задания 2',
@@ -40,9 +42,9 @@ let task_list = reactive({
                 "developer2",
             ],
             assigned_employees: {
-                marketer1: "",
-                designer1: "",
-                designer2: "",
+                marketer1: "null",
+                designer1: "null",
+                designer2: "null",
             },
             complexity: 2,
             reward: {

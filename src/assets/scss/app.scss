@@ -50,7 +50,32 @@ body {
       margin: 0 10px;
     }
   }
+  .slot {
+    background: $color_pink;
+    margin-right: 10px;
+  }
+
+  .task-slot {
+    display: flex;
+  }
 
   .choose {
-    display: flex;
+    position: absolute;
+    background: rgba(233,233,233,0.9);
+    left: 10vw;
+    top: 10vh;
+    width: 50vw;
+    height: 50vh;
+    z-index: 2;
+    
+    .employee {
+      border: 1px solid $color_black;
+      border-radius: 20px;
+    }
+
+    .close {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+    }
   }

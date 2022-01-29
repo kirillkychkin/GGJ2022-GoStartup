@@ -54,10 +54,12 @@
           Доп расходы в неделю: {{ task.additional_expenses }} <br/>
           Награда: {{ task.reward }} <br/>
           Назначенные сотрудники: 
+          <task-slots :required_roles="task.required_roles" :passed_task="task">
+          </task-slots>
+          <!--
           <div v-for="employee in task.required_roles" :key="employee.id" class="active">
-          <choose :employee="employee">
-          </choose>
           </div>
+          -->
           <button @click="chooseTask(task, false)">
             Прекратить выполнять
           </button>
@@ -86,6 +88,7 @@
               Тип: {{ employee.type }} <br/>
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
+              Выполняет: {{ employee.assigned_task }}
             </div>
           </div>
           <div class="flex">
@@ -94,6 +97,7 @@
               Тип: {{ employee.type }} <br/>
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
+              Выполняет: {{ employee.assigned_task }}
             </div>
           </div>
           <div class="flex">
@@ -102,6 +106,7 @@
               Тип: {{ employee.type }} <br/>
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
+              Выполняет: {{ employee.assigned_task }}
             </div>
           </div>
           <div class="flex">
@@ -110,6 +115,7 @@
               Тип: {{ employee.type }} <br/>
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
+              Выполняет: {{ employee.assigned_task }}
             </div>
           </div>
         </div>
@@ -158,6 +164,8 @@
         </div>
       </div>
     </div>
+    <choose v-if="state_choose.show">
+    </choose>
   </div>
 </template>
 
@@ -167,20 +175,23 @@ import { computed } from "vue"
 import useCompany from '@/composables/company'
 import useTasks from '@/composables/tasks'
 import useGame from "@/composables/game"
+import useChoose from "@/composables/choose"
 
-import Choose from '../components/choose.vue'
+import TaskSlots from '../components/TaskSlots.vue'
+import choose from '../components/choose.vue'
 
 const { state_company } = useCompany()
 const { getTasks, chooseTask, getPerformedTasks } = useTasks()
 const { state_game, nextTick } = useGame()
+const { state_choose } = useChoose()
 
 export default {
   name: 'Home',
   components: {
-    Choose,
+    TaskSlots,
+    choose,
   },
   setup() {
-
     state_company.hire_employee("ceo1", true)
 
     const ceos = computed(() => {
@@ -213,6 +224,8 @@ export default {
       marketers,
       designers,
       developers,
+
+      state_choose,
     }
   },
 }
