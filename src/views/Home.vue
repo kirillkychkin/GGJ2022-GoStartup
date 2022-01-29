@@ -50,10 +50,14 @@
           Тип: {{ task.type }} <br/>
           Время на выполнение: {{ task.time }} недели <br/>
           Текущий прогресс: {{ task.progress }} недели <br/>
-          Нужные сотрудники: <div v-html="task.roles_string"></div>
           Сложность: {{ task.complexity }} <br/>
           Доп расходы в неделю: {{ task.additional_expenses }} <br/>
           Награда: {{ task.reward }} <br/>
+          Назначенные сотрудники: 
+          <div v-for="employee in task.required_roles" :key="employee.id" class="active">
+          <choose :employee="employee">
+          </choose>
+          </div>
           <button @click="chooseTask(task, false)">
             Прекратить выполнять
           </button>
@@ -78,6 +82,11 @@
         <div>
           <div class="flex">
             <h4>CEO</h4>
+            <div v-for="employee in ceos" :key="employee.id">
+              Тип: {{ employee.type }} <br/>
+              Зарплата: {{ employee.salary }} <br/>
+              Уровень: {{ employee.tier }} <br/>
+            </div>
           </div>
           <div class="flex">
             <h4>Marketer</h4>
@@ -159,6 +168,8 @@ import useCompany from '@/composables/company'
 import useTasks from '@/composables/tasks'
 import useGame from "@/composables/game"
 
+import Choose from '../components/choose.vue'
+
 const { state_company } = useCompany()
 const { getTasks, chooseTask, getPerformedTasks } = useTasks()
 const { state_game, nextTick } = useGame()
@@ -166,10 +177,15 @@ const { state_game, nextTick } = useGame()
 export default {
   name: 'Home',
   components: {
+    Choose,
   },
   setup() {
 
     state_company.hire_employee("ceo1", true)
+
+    const ceos = computed(() => {
+      return state_company.filter_roles("ceo")
+    })
 
     const marketers = computed(() => {
       return state_company.filter_roles("marketer")
@@ -193,6 +209,7 @@ export default {
       state_game,
       nextTick,
 
+      ceos,
       marketers,
       designers,
       developers,

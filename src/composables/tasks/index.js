@@ -20,7 +20,9 @@ function getTasks(stage) {
 }
 
 function checkTask(employeesOrig, needed_employees) {
-    let employees = [...employeesOrig];
+    console.log(employeesOrig)
+    /*
+    let employees = [...employeesOrig]
     let required_roles = []
     needed_employees.forEach(emp => {
         let role = emp.substring(0, emp.length-1)
@@ -35,7 +37,6 @@ function checkTask(employeesOrig, needed_employees) {
     firstLoop:
     for(let i = 0; i < needed_employees.length; ++i) {
         for(let j = 0; j < employees.length; ++j) {
-            console.log(needed_employees[i].role,employees[j].role )
             if(needed_employees[i].role == employees[j].role && needed_employees[i].tier == employees[j].tier) {
                 employees.splice(j,1)
                 let index = required_roles.indexOf(needed_employees[i])
@@ -49,7 +50,6 @@ function checkTask(employeesOrig, needed_employees) {
     secLoop:
     for(let i = 0; i < needed_employees.length; ++i) {
         for(let j = 0; j < employees.length; ++j) {
-            console.log(needed_employees[i].role,employees[j].role )
             if(needed_employees[i].role == employees[j].role && needed_employees[i].tier <= employees[j].tier) {
                 employees.splice(j,1)
                 let index = required_roles.indexOf(needed_employees[i])
@@ -59,10 +59,8 @@ function checkTask(employeesOrig, needed_employees) {
             }
         }
     }
-
-    console.log(employees)
-    console.log(needed_employees)
-
+    */
+   needed_employees = []
     if(needed_employees.length) {
         return {
             can_do: false,
@@ -73,6 +71,11 @@ function checkTask(employeesOrig, needed_employees) {
             can_do: true
         }
     }
+}
+
+function finishTask(task) {
+    console.log("finish")
+    console.log(task)
 }
 
 function chooseTask(task, add) {
@@ -102,6 +105,9 @@ function getPerformedTasks() {
 function doTasks() {
     for(let task in state_company.performed_tasks) {
         ++state_company.performed_tasks[task].progress
+        if(state_company.performed_tasks[task].progress == state_company.performed_tasks[task].time) {
+            finishTask(task)
+        }
     }
 }
 

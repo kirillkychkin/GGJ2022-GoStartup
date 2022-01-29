@@ -14,6 +14,10 @@ let task_list = reactive({
                 "ceo1",
                 "designer2",
             ],
+            assigned_employees: {
+                ceo1: "",
+                designer2: "",
+            },
             complexity: 1,
             reward: {
                 type: "clients",
@@ -35,6 +39,11 @@ let task_list = reactive({
                 "designer1",
                 "developer2",
             ],
+            assigned_employees: {
+                marketer1: "",
+                designer1: "",
+                designer2: "",
+            },
             complexity: 2,
             reward: {
                 type: "income",
@@ -43,6 +52,9 @@ let task_list = reactive({
             id: 1,
             active: false,
         },
+    },
+    stage1: {
+        
     }
 })
 

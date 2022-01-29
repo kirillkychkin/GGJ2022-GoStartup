@@ -7,7 +7,7 @@ const default_data = {
     clients: 4,
     office: offices.garage,
     name: "название",
-    productCost: 1000,
+    productCost: 300,
     employees: []
 }
 

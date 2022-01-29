@@ -1,4 +1,4 @@
-import { reactive } from "vue"
+import { reactive, computed } from "vue"
 
 import defaultData from '@/composables/company/defaultData'
 const { default_data } = defaultData()
@@ -11,12 +11,16 @@ const { employee_types } = employeeTypes()
 
 const state_company = reactive({
     name: default_data.name,
-    employees: default_data.employees,
+    employees: [],
     office: default_data.office,
     capitalization: default_data.capitalization,
     balance: default_data.balance,
     clients: default_data.clients,
     performed_tasks: {},
+
+    available_employees: computed(() => {
+        return state_company.employees.filter(emp => emp.assigned_task == null)
+    }),
 
     filter_roles: function(role) {
         state_company.employees.filter(emp => emp.role == role)
