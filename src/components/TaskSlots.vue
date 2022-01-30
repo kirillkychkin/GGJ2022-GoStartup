@@ -40,6 +40,7 @@ export default {
     passed_task: Object,
   },
   setup(props) {
+    console.log(props.required_roles)
     function chooseEmployee(role) {
       state_choose.role = role
       state_choose.show = true

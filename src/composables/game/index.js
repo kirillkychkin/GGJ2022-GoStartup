@@ -6,9 +6,12 @@ const { state_company } = useCompany()
 import useTasks from '@/composables/tasks'
 const { doTasks, checkTasks } = useTasks()
 
+import useStages from '@/composables/stages'
+const { state_stages } = useStages()
+
 const state_game = reactive({
     tick: 0,
-    stage: 0,
+    stage: "stage0",
 })
 
 function nextTick() {
@@ -22,6 +25,12 @@ function nextTick() {
             ++state_game.tick
             state_company.next_balance()
             doTasks()
+        }
+    }
+    if(state_stages[state_game.stage].objective_amount == state_stages[state_game.stage].objective_progress) {
+        if(!state_stages[state_game.stage].compose) {
+            state_game.stage = state_stages[state_game.stage].next
+            alert("Поздравляем! Новая стадия игры: " + state_stages[state_game.stage].name)
         }
     }
 }

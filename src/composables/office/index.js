@@ -2,17 +2,17 @@ import { reactive } from "vue"
 
 const offices = {
     garage: {
-        expenses: 2500,
+        expenses: 10000,
         name: "Гараж",
         size: 5,
     },
     coworking: {
-        expenses: 16500,
+        expenses: 70000,
         name: "Коворкинг",
         size: 11,
     },
     openspace: {
-        expenses: 105000,
+        expenses: 270000,
         name: "Опенспейс",
         size: 21,
     },

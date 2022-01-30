@@ -20,6 +20,8 @@ const state_company = reactive({
     capitalization: default_data.capitalization,
     balance: default_data.balance,
     clients: default_data.clients,
+    share: 100,
+    investors_share: 0,
     performed_tasks: {},
 
     available_employees: computed(() => {
@@ -115,6 +117,10 @@ const state_company = reactive({
         balance += this.income()
         balance -= this.expenses()
         this.balance = balance
+        if(this.balance < 0) {
+            alert("Вы разорились! Сейчас начнется новая игра")
+            location.reload()
+        }
     }
 })
 

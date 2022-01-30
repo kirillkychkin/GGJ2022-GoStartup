@@ -11,7 +11,7 @@ import useReward from '@/composables/reward'
 const { calculateReward } = useReward()
 
 function getTasks(stage) {
-    let tasklist = task_list['stage'+stage]
+    let tasklist = task_list[stage]
     for(let task in tasklist) {
         let roles_string = ``
         tasklist[task].required_roles.forEach(role => {

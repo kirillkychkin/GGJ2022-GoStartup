@@ -1,52 +1,158 @@
 <template>
   <div class="home">
     <div class="dashboard">
-      <div class="block">
-        <h2>
-          Данные компании:
-        </h2>
-        Название компании: {{ state_company.name }} <br/>
-        Зарплаты: {{ state_company.salaries() }} <br/>
-        Аренда офиса: {{ state_company.office_rent() }} <br/>
-        Расходы от тасков: {{ state_company.task_expenses() }} <br/>
-        Текущая капитализация: {{ state_company.capitalization }} <br/>
-        Текущий баланс: {{ state_company.balance }} <br/>
-        Ожидаемый доход: {{ state_company.income() }} <br/>
-        Клиенты: {{ state_company.clients }} <br/>
-        <div class="card-grey">
-          Офис: {{ state_company.office.name }} <br/>
-          Вмещает сотрудников: {{ state_company.office.size }} <br/>
-          Стоимость офиса (входит в расходы): {{ state_company.office.expenses }} <br/>
-          <button @click="state_company.changeOffice()">
-            Поменять офис
-          </button>
+      <div class="company">
+        <div class="company_block">
+          <h1>GoStartup</h1> 
+
+          <div class="money mb-2">
+            <div class="border">
+              <h2>{{ state_company.capitalization }} ₽</h2>
+              Капитализация
+            </div>
+            <div class="border">
+              <h2>{{ state_company.balance }} ₽</h2>
+              Деньги
+            </div>
+          </div>
+
+          <div class="finances border mb-2">
+            <h2>
+              Финансы
+            </h2>
+
+            <div class="cell mb-2">
+              <div>
+                Выручка
+              </div>
+              <div>
+                {{ state_company.income() }} ₽
+              </div>
+            </div>
+            <div class="cell">
+              <div>
+                Заработная плата
+              </div>
+              <div>
+                {{ state_company.salaries() }} ₽
+              </div>
+            </div>
+            <div class="cell">
+              <div>
+                Аренда офиса
+              </div>
+              <div>
+                {{ state_company.office_rent() }} ₽
+              </div>
+            </div>
+            <div class="cell">
+              <div>
+                Издержки на задания
+              </div>
+              <div>
+                {{ state_company.task_expenses() }} ₽
+              </div>
+            </div>
+            <div class="cell mb-2">
+              <div>
+                Итого расходов
+              </div>
+              <div>
+                {{ state_company.expenses() }} ₽
+              </div>
+            </div>
+            <div class="cell">
+              <div>
+                Прогнозируемый доход
+              </div>
+              <div>
+                {{ state_company.income() - state_company.expenses() }} ₽
+              </div>
+            </div>
+
+            <h2>
+              Распределение долей
+            </h2>
+            <div class="cell">
+              <div>
+                Основатель
+              </div>
+              <div>
+                {{ state_company.share }}%
+              </div>
+            </div>
+            <div class="cell">
+              <div>
+                Инвесторы
+              </div>
+              <div>
+                {{ state_company.investors_share }}%
+              </div>
+            </div>
+
+          </div>
+
+          <div class="border mb-2">
+            <h2>
+              Сотрудники
+            </h2>
+            <div class="button" @click="showEmployees()">
+              Посмотреть
+            </div>
+          </div>
+          <div class="border mb-2">
+            <h2>
+              Офис: {{ state_company.office.name }}
+            </h2>
+            <div class="cell">
+              <div> 
+                Аренда: {{ state_company.office.expenses }} ₽ <br/>
+                Вместимость: {{ state_company.office.size }}
+              </div>
+              <div class="button">
+                Сменить
+              </div>
+            </div>
+          </div>
+
+          <div class="cell">
+            <div class="button next_tick" @click="nextTick">
+              Следующий ход
+            </div>
+            <div class="button tick">
+              {{ state_game.tick }} ход
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="block">
-        <h2>
-          Доступные задания:
-        </h2>
-        <!-- Здесь 1 - передаваемый аргумент стадии -->
-        <div class="card-grey" v-for="task in getTasks(0)" :key="task.id" :class="{ 'active': task.active }">
-          Название: {{ task.name }} <br/>
-          Описание: {{ task.desc }} <br/>
-          Тип: {{ task.type }} <br/>
-          Время на выполнение: {{ task.time }} недели <br/>
-          Нужные сотрудники: <div v-html="task.roles_string"></div>
-          Сложность: {{ task.complexity }} <br/>
-          Доп расходы в неделю: {{ task.additional_expenses }} <br/>
-          Награда: {{ task.reward }} <br/>
+
+      <div class="tasks">
+        <div class="card-big border">
+          <h2>To do</h2>
           
-          <button @click="chooseTask(task, true)">
-            Выполнять
-          </button>
+          <div class="card border mb-2" v-for="task in getTasks(state_game.stage)" :key="task.id" :class="{ 'active': task.active }" @click="showTask(task)">
+            <h2> {{ task.name }} </h2>
+            <div class="type"> Тип: {{ task.type }} </div>
+            <div class="button ticks"> {{ task.time }} ходов </div>
+            <div class="type"> Сложность: {{ task.complexity.text }} </div>
+          </div>
         </div>
-      </div>
-      <div class="wide-block">
-        <h2>
-          Выполняемые задания:
-        </h2>
-        <div class="card-grey" v-for="task in getPerformedTasks(0)" :key="task.id">
+        <div class="card-big border">
+          <h2>Doing</h2>
+          <div class="card border mb-2" v-for="task in getPerformedTasks()" :key="task.id" @click="showTask(task, true)">
+            <h2> {{ task.name }} </h2>
+            <div class="type"> Тип: {{ task.type }} </div>
+            <div class="button ticks"> {{ task.progress }}/{{ task.time }} ходов </div>
+            <div class="type"> Сложность: {{ task.complexity.text }} </div>
+   
+            <div class="button" @click="chooseTask(task, false)">
+              Прекратить выполнять
+            </div>
+          </div>
+        </div>
+        <!--
+        <div class="card-grey" v-for="task in getPerformedTasks()" :key="task.id">
           Название: {{ task.name }} <br/>
           Описание: {{ task.desc }} <br/>
           Тип: {{ task.type }} <br/>
@@ -58,147 +164,158 @@
           Назначенные сотрудники: 
           <task-slots :required_roles="task.required_roles" :passed_task="task">
           </task-slots>
-          <!--
           <div v-for="employee in task.required_roles" :key="employee.id" class="active">
           </div>
-          -->
           <button @click="chooseTask(task, false)">
             Прекратить выполнять
           </button>
         </div>
+        -->
       </div>
-      <div class="block">
-        <h2>
-          Игровые данные:
-        </h2>
-        <div>
-          Ход: {{ state_game.tick }} <br/>
-          Этап: {{ state_game.stage }} <br/>
-          <button @click="nextTick">
-            Следующий ход
+      <div class="chat">
+        chat
+      </div>
+    </div>
+
+    <div v-if="curr_task.show" class="modal">
+      Название: {{ curr_task.task.name }} <br/>
+      Описание: {{ curr_task.task.desc }} <br/>
+      Тип: {{ curr_task.task.type }} <br/>
+      Время на выполнение: {{ curr_task.task.time }} недели <br/>
+      Нужные сотрудники: <div v-html="curr_task.task.roles_string"></div>
+      Сложность: {{ curr_task.task.complexity }} <br/>
+      Доп расходы в неделю: {{ curr_task.task.additional_expenses }} <br/>
+      Награда: {{ curr_task.task.reward }} <br/>
+      
+      <button @click="chooseTask(curr_task.task, true)">
+        Выполнять
+      </button>
+      
+      <task-slots :required_roles="curr_task.task.required_roles" :passed_task="curr_task.task" v-if="curr_task.team">
+      </task-slots>
+      <div class="button close" @click="curr_task.show = false">
+        Закрыть
+      </div>
+    </div>
+
+    <div v-if="state_employees.show" class="modal">
+      <h2>
+        Сотрудники
+      </h2>
+      <div class="flex">
+        <h4>CEO</h4>
+        <div v-for="employee in ceos" :key="employee.id">
+          Тип: {{ employee.type }} <br/>
+          Зарплата: {{ employee.salary }} <br/>
+          Уровень: {{ employee.tier }} <br/>
+          Выполняет: {{ employee.assigned_task }}
+          <div v-if="employee.promotion.can_promote">
+            Стоимость повышения: {{ employee.promotion.cost }}
+            <button @click="promoteEmployee(employee,state_company)">
+              Повысить
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <h4>Marketer</h4>
+        <div v-for="employee in marketers" :key="employee.id">
+          Тип: {{ employee.type }} <br/>
+          Зарплата: {{ employee.salary }} <br/>
+          Уровень: {{ employee.tier }} <br/>
+          Выполняет: {{ employee.assigned_task }}
+          <div v-if="employee.promotion.can_promote">
+            Стоимость повышения: {{ employee.promotion.cost }}
+            <button @click="promoteEmployee(employee,state_company)">
+              Повысить
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <h4>Designer</h4>
+        <div v-for="employee in designers" :key="employee.id">
+          Тип: {{ employee.type }} <br/>
+          Зарплата: {{ employee.salary }} <br/>
+          Уровень: {{ employee.tier }} <br/>
+          Выполняет: {{ employee.assigned_task }}
+          <div v-if="employee.promotion.can_promote">
+            Стоимость повышения: {{ employee.promotion.cost }}
+            <button @click="promoteEmployee(employee,state_company)">
+              Повысить
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <h4>Developer</h4>
+        <div v-for="employee in developers" :key="employee.id">
+          Тип: {{ employee.type }} <br/>
+          Зарплата: {{ employee.salary }} <br/>
+          Уровень: {{ employee.tier }} <br/>
+          Выполняет: {{ employee.assigned_task }}
+          <div v-if="employee.promotion.can_promote">
+            Стоимость повышения: {{ employee.promotion.cost }}
+            <button @click="promoteEmployee(employee,state_company)">
+              Повысить
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <h2>
+        Нанять сотрудников:
+      </h2>
+      <div>
+        <div class="flex">
+          <h4>Marketer</h4>
+          <button @click="state_company.hire_employee('marketer1')">
+            Tier 1
+          </button>
+          <button @click="state_company.hire_employee('marketer2')">
+            Tier 2
+          </button>
+          <button @click="state_company.hire_employee('marketer3')">
+            Tier 3
+          </button>
+        </div>
+        <div class="flex">
+          <h4>Designer</h4>
+          <button @click="state_company.hire_employee('designer1')">
+            Tier 1
+          </button>
+          <button @click="state_company.hire_employee('designer2')">
+            Tier 2
+          </button>
+          <button @click="state_company.hire_employee('designer3')">
+            Tier 3
+          </button>
+        </div>
+        <div class="flex">
+          <h4>Developer</h4>
+          <button @click="state_company.hire_employee('developer1')">
+            Tier 1
+          </button>
+          <button @click="state_company.hire_employee('developer2')">
+            Tier 2
+          </button>
+          <button @click="state_company.hire_employee('developer3')">
+            Tier 3
           </button>
         </div>
       </div>
-      <div class="wide-block">
-        <h2>
-          Сотрудники:
-        </h2>
-        <div>
-          <div class="flex">
-            <h4>CEO</h4>
-            <div v-for="employee in ceos" :key="employee.id">
-              Тип: {{ employee.type }} <br/>
-              Зарплата: {{ employee.salary }} <br/>
-              Уровень: {{ employee.tier }} <br/>
-              Выполняет: {{ employee.assigned_task }}
-              <div v-if="employee.promotion.can_promote">
-                Стоимость повышения: {{ employee.promotion.cost }}
-                <button @click="promoteEmployee(employee,state_company)">
-                  Повысить
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <h4>Marketer</h4>
-            <div v-for="employee in marketers" :key="employee.id">
-              Тип: {{ employee.type }} <br/>
-              Зарплата: {{ employee.salary }} <br/>
-              Уровень: {{ employee.tier }} <br/>
-              Выполняет: {{ employee.assigned_task }}
-              <div v-if="employee.promotion.can_promote">
-                Стоимость повышения: {{ employee.promotion.cost }}
-                <button @click="promoteEmployee(employee,state_company)">
-                  Повысить
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <h4>Designer</h4>
-            <div v-for="employee in designers" :key="employee.id">
-              Тип: {{ employee.type }} <br/>
-              Зарплата: {{ employee.salary }} <br/>
-              Уровень: {{ employee.tier }} <br/>
-              Выполняет: {{ employee.assigned_task }}
-              <div v-if="employee.promotion.can_promote">
-                Стоимость повышения: {{ employee.promotion.cost }}
-                <button @click="promoteEmployee(employee,state_company)">
-                  Повысить
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <h4>Developer</h4>
-            <div v-for="employee in developers" :key="employee.id">
-              Тип: {{ employee.type }} <br/>
-              Зарплата: {{ employee.salary }} <br/>
-              Уровень: {{ employee.tier }} <br/>
-              Выполняет: {{ employee.assigned_task }}
-              <div v-if="employee.promotion.can_promote">
-                Стоимость повышения: {{ employee.promotion.cost }}
-                <button @click="promoteEmployee(employee,state_company)">
-                  Повысить
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="wide-block">
-        <h2>
-          Нанять сотрудников:
-        </h2>
-        <div>
-          <div class="flex">
-            <h4>Marketer</h4>
-            <button @click="state_company.hire_employee('marketer1')">
-              Tier 1
-            </button>
-            <button @click="state_company.hire_employee('marketer2')">
-              Tier 2
-            </button>
-            <button @click="state_company.hire_employee('marketer3')">
-              Tier 3
-            </button>
-          </div>
-          <div class="flex">
-            <h4>Designer</h4>
-            <button @click="state_company.hire_employee('designer1')">
-              Tier 1
-            </button>
-            <button @click="state_company.hire_employee('designer2')">
-              Tier 2
-            </button>
-            <button @click="state_company.hire_employee('designer3')">
-              Tier 3
-            </button>
-          </div>
-          <div class="flex">
-            <h4>Developer</h4>
-            <button @click="state_company.hire_employee('developer1')">
-              Tier 1
-            </button>
-            <button @click="state_company.hire_employee('developer2')">
-              Tier 2
-            </button>
-            <button @click="state_company.hire_employee('developer3')">
-              Tier 3
-            </button>
-          </div>
-        </div>
+      <div class="button close" @click="state_employees.show = false">
+        Закрыть
       </div>
     </div>
+
     <choose v-if="state_choose.show">
     </choose>
-    <choose-office v-if="state_office.show">
-    </choose-office>
   </div>
 </template>
 
 <script>
-import { computed } from "vue"
+import { computed, reactive } from "vue"
 
 import useCompany from '@/composables/company'
 import useTasks from '@/composables/tasks'
@@ -206,12 +323,8 @@ import useGame from "@/composables/game"
 import useChoose from "@/composables/choose"
 import useEmployee from "@/composables/employee"
 
-import officesStore from '@/composables/office'
-const { state_office} = officesStore()
-
 import TaskSlots from '../components/TaskSlots.vue'
 import choose from '../components/choose.vue'
-import ChooseOffice from '../components/ChooseOffice.vue'
 
 const { state_company } = useCompany()
 const { getTasks, chooseTask, getPerformedTasks } = useTasks()
@@ -224,7 +337,6 @@ export default {
   components: {
     TaskSlots,
     choose,
-    ChooseOffice,
   },
   setup() {
     state_company.hire_employee("ceo1", true)
@@ -245,6 +357,30 @@ export default {
       return state_company.filter_roles("developer")
     })
 
+    const curr_task = reactive({
+      show: false,
+      task: "",
+      team: false,
+    })
+
+    const state_employees = reactive({
+      show: false,
+    })
+
+    function showTask(task, ifDoing) {
+      curr_task.task = task
+      curr_task.show = true
+      if(ifDoing) {
+        curr_task.team = true
+      } else {
+        curr_task.team = false
+      }
+    }
+
+    function showEmployees() {
+      state_employees.show = true
+    }
+
     return {
       state_company,
 
@@ -262,8 +398,11 @@ export default {
 
       state_choose,
       promoteEmployee,
+      curr_task,
 
-      state_office,
+      showTask,
+      showEmployees,
+      state_employees,
     }
   },
 }

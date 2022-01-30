@@ -1,6 +1,9 @@
 import useCompany from '@/composables/company'
 const { state_company } = useCompany()
 
+import useStages from '@/composables/stages'
+const { state_stages } = useStages()
+
 function throwDice(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -126,8 +129,17 @@ function calculateReward(task,diff) {
         state_company.clients += reward.amount
     } else if(reward.type == "income") {
         state_company.balance += reward.amount
+    } else if(reward.type == "investments") {
+        state_company.balance += reward.amount
+        state_company.share -= reward.share_change
+        state_company.investors_share += reward.share_change
     }
     
+    if(task.stage == "stage0") {
+        ++state_stages.stage0.objective_progress
+        console.log(state_stages.stage0)
+    }
+
     delete state_company.performed_tasks[task.code_name]
     task.active = false
     task.progress = 0

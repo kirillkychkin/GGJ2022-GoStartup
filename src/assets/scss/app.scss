@@ -21,30 +21,121 @@ body {
       }
     }
   }
-  /*
+  .modal {
+    position: absolute;
+    background: rgba(233,233,233,1);
+    left: 10vw;
+    top: 10vh;
+    width: 50vw;
+    height: 50vh;
+    z-index: 5;
+    
+    .office {
+      border: 1px solid $color_black;
+      border-radius: 20px;
+    }
+
+    .close {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+    }
+  }
+  .button {
+    padding: 10px;
+    border: 3px solid $color_black;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: bold;
+    color: $color_black;
+    background: $color_yellow_accent;
+    text-align: center;
+  }
+  .button:hover {
+    cursor: pointer;
+  }
   .dashboard {
     width: 100%;
     display: flex;
-
+    .mb-2 {
+      margin-bottom: 10px;
+    }
+    .next_tick {
+      background: $color_blue_accent;
+      color: $color_white;
+      width: 60%;
+    }
+    .tick {
+      background: $color_white;
+      color: $color_blue_accent;
+      width: 20%;
+    }
+    .border {
+      padding: 10px;
+      border: 3px solid $color_black;
+      border-radius: 20px;
+    }
+    .cell {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .card {
+      .type {
+        font-weight: bold;
+      }
+      .ticks {
+        background: $color_blue_accent;
+        color: $color_white;
+        display: inline-block;
+      }
+    }
+    .card:hover {
+      background: $color_card_hover;
+      cursor: pointer;
+    }
     .company {
       width: 20%;
-      height: 100vh;
       background: $color_white;
       .company_block {
         padding: 10px
       }
+
+      .money {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        h2 {
+          margin: 0;
+        }
+        div {
+          width: 40%;
+          text-align: center;
+          background: $color_yellow_accent;
+        }
+      }
     }
+
     .tasks {
       width: 60%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      .card-big {
+        width: 40%;
+        margin-right: 20px;
+        background: $color_white;
+      }
     }
+
     .chat {
       width: 20%;
       height: 100vh;
       background: $color_white;
     }
+
   }
-  */
-  
+  /*
   .dashboard {
     display: flex;
     flex-wrap: wrap;
@@ -55,6 +146,7 @@ body {
       width: 50vw;
     }
   }
+  */
   .card-grey {
     background: $color_grey;
     margin-bottom: 10px;
@@ -83,12 +175,12 @@ body {
   }
   .choose-office {
     position: absolute;
-    background: rgba(233,233,233,0.9);
+    background: rgba(255,255,266,1);
     left: 10vw;
     top: 10vh;
     width: 50vw;
     height: 50vh;
-    z-index: 2;
+    z-index: 10;
     
     .office {
       border: 1px solid $color_black;
@@ -104,12 +196,12 @@ body {
 
   .choose {
     position: absolute;
-    background: rgba(233,233,233,0.9);
+    background: rgba(255,255,266,1);
     left: 10vw;
     top: 10vh;
     width: 50vw;
     height: 50vh;
-    z-index: 2;
+    z-index: 15;
     
     .employee {
       border: 1px solid $color_black;
