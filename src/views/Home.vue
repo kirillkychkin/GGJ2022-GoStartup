@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" style="width:300px">
     <div class="dashboard">
       <div class="block">
         <h2>
@@ -18,6 +17,9 @@
           Офис: {{ state_company.office.name }} <br/>
           Вмещает сотрудников: {{ state_company.office.size }} <br/>
           Стоимость офиса (входит в расходы): {{ state_company.office.expenses }} <br/>
+          <button @click="state_company.changeOffice()">
+            Поменять офис
+          </button>
         </div>
       </div>
       <div class="block">
@@ -40,7 +42,7 @@
           </button>
         </div>
       </div>
-      <div class="block">
+      <div class="wide-block">
         <h2>
           Выполняемые задания:
         </h2>
@@ -190,6 +192,8 @@
     </div>
     <choose v-if="state_choose.show">
     </choose>
+    <choose-office v-if="state_office.show">
+    </choose-office>
   </div>
 </template>
 
@@ -202,8 +206,12 @@ import useGame from "@/composables/game"
 import useChoose from "@/composables/choose"
 import useEmployee from "@/composables/employee"
 
+import officesStore from '@/composables/office'
+const { state_office} = officesStore()
+
 import TaskSlots from '../components/TaskSlots.vue'
 import choose from '../components/choose.vue'
+import ChooseOffice from '../components/ChooseOffice.vue'
 
 const { state_company } = useCompany()
 const { getTasks, chooseTask, getPerformedTasks } = useTasks()
@@ -216,6 +224,7 @@ export default {
   components: {
     TaskSlots,
     choose,
+    ChooseOffice,
   },
   setup() {
     state_company.hire_employee("ceo1", true)
@@ -253,6 +262,8 @@ export default {
 
       state_choose,
       promoteEmployee,
+
+      state_office,
     }
   },
 }

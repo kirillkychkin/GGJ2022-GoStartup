@@ -9,10 +9,14 @@ const { hireEmployee } = employee()
 import employeeTypes from '@/composables/employee/employeeTypes'
 const { employee_types } = employeeTypes()
 
+import officesStore from '@/composables/office'
+const { offices, state_office} = officesStore()
+
+
 const state_company = reactive({
     name: default_data.name,
     employees: [],
-    office: default_data.office,
+    office: offices[state_office.curr_office],
     capitalization: default_data.capitalization,
     balance: default_data.balance,
     clients: default_data.clients,
@@ -22,6 +26,11 @@ const state_company = reactive({
         return state_company.employees.filter(emp => emp.assigned_task == null)
     }),
 
+    changeOffice: function() {
+        state_office.show = true
+        console.log("Поменять офис")
+    },
+
     filter_roles: function(role) {
         state_company.employees.filter(emp => emp.role == role)
         return state_company.employees.filter(emp => emp.role == role)
@@ -29,10 +38,14 @@ const state_company = reactive({
 
     can_hire: function(employee) {
         let taken_positions = this.filter_roles(employee_types[employee].role)
-        if(taken_positions.length < 5) {
-            return true
-        } else {
+        if(state_company.employees.length == state_company.office.size) {
             return false
+        } else {
+            if(taken_positions.length < 5) {
+                return true
+            } else {
+                return false
+            }
         }
     },
 
@@ -45,7 +58,7 @@ const state_company = reactive({
                 if(this.can_hire(role)) {
                     this.employees.push(hireEmployee(role))
                 } else {
-                    alert("Слишком много сотрудников этого типа")
+                    alert("Слишком много сотрудников этого типа или закончилось место в офисе")
                 }
             }
         }

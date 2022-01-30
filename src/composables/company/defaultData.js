@@ -1,11 +1,7 @@
-import officesStore from '@/composables/office'
-const { offices } = officesStore()
-
 const default_data = {
     balance: 200000,
     capitalization: 0,
-    clients: 4,
-    office: offices.garage,
+    clients: 0,
     name: "название",
     productCost: 300,
     employees: []

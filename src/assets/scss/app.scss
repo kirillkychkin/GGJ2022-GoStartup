@@ -1,6 +1,7 @@
 @import 'variables';
 body {
   margin: 0;
+  background: $color_background;
 }
 
 #app {
@@ -20,7 +21,30 @@ body {
       }
     }
   }
+  /*
+  .dashboard {
+    width: 100%;
+    display: flex;
 
+    .company {
+      width: 20%;
+      height: 100vh;
+      background: $color_white;
+      .company_block {
+        padding: 10px
+      }
+    }
+    .tasks {
+      width: 60%;
+    }
+    .chat {
+      width: 20%;
+      height: 100vh;
+      background: $color_white;
+    }
+  }
+  */
+  
   .dashboard {
     display: flex;
     flex-wrap: wrap;
@@ -31,7 +55,6 @@ body {
       width: 50vw;
     }
   }
-
   .card-grey {
     background: $color_grey;
     margin-bottom: 10px;
@@ -57,6 +80,26 @@ body {
 
   .task-slot {
     display: flex;
+  }
+  .choose-office {
+    position: absolute;
+    background: rgba(233,233,233,0.9);
+    left: 10vw;
+    top: 10vh;
+    width: 50vw;
+    height: 50vh;
+    z-index: 2;
+    
+    .office {
+      border: 1px solid $color_black;
+      border-radius: 20px;
+    }
+
+    .close {
+      position: absolute;
+      top: 5%;
+      right: 5%;
+    }
   }
 
   .choose {
