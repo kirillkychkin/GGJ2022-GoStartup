@@ -25,19 +25,22 @@ function getTasks(stage) {
 function checkTasks() {
     let valid = true
     for(let task in state_company.performed_tasks) {
+        let performed = true
         let curr_task = state_company.performed_tasks[task]
         curr_task.required_roles.forEach(role => {
             let emp = curr_task.assigned_employees[role]
             if(emp == "null") {
                 valid = false
+                performed = false
             } else {
                 let tier = parseInt(role.substring(role.length-1))
                 if (tier > emp.tier) {
                     valid = false
+                    performed = false
                 }
             }
         })
-        if(valid) {
+        if(performed) {
             curr_task.is_performed = true
         } else {
             curr_task.is_performed = false
