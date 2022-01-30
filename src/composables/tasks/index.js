@@ -29,7 +29,6 @@ function checkTasks() {
             if(emp == "null") {
                 valid = false
             } else {
-                console.log(emp)
                 let tier = parseInt(role.substring(role.length-1))
                 if (tier > emp.tier) {
                     valid = false
@@ -96,8 +95,15 @@ function checkTasks() {
 }
 
 function finishTask(task) {
-    console.log("finish")
-    console.log(task)
+    let diff = 0
+    task.required_roles.forEach(role => {
+        let emp = task.assigned_employees[role]
+        let tier = parseInt(role.substring(role.length-1))
+        if (tier < emp.tier) {
+            diff+= (emp.tier-tier)
+        }
+    })
+    console.log("Разность: " + diff)
 }
 
 function chooseTask(task, add) {
@@ -120,6 +126,15 @@ function chooseTask(task, add) {
     } else {
         delete state_company.performed_tasks[task.code_name]
         task.active = false
+        task.progress = 0
+
+        task.required_roles.forEach(role => {
+            let emp = task.assigned_employees[role]
+            if(emp != "null") {
+                emp.assigned_task = "null"
+                task.assigned_employees[role] = "null"
+            }
+        })
     }
 }
 
@@ -133,7 +148,7 @@ function doTasks() {
         if(state_company.performed_tasks[task].is_performed) {
             ++state_company.performed_tasks[task].progress
             if(state_company.performed_tasks[task].progress == state_company.performed_tasks[task].time) {
-                finishTask(task)
+                finishTask(state_company.performed_tasks[task])
             }
         }
     }
