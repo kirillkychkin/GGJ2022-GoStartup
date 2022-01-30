@@ -5,8 +5,10 @@ import employeeTypes from '@/composables/employee/employeeTypes'
 const { employee_types } = employeeTypes()
 
 import useCompany from '@/composables/company'
-
 const { state_company } = useCompany()
+
+import useReward from '@/composables/reward'
+const { calculateReward } = useReward()
 
 function getTasks(stage) {
     let tasklist = task_list['stage'+stage]
@@ -103,7 +105,7 @@ function finishTask(task) {
             diff+= (emp.tier-tier)
         }
     })
-    console.log("Разность: " + diff)
+    calculateReward(task,diff)
 }
 
 function chooseTask(task, add) {

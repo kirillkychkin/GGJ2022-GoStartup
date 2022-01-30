@@ -20,7 +20,10 @@ let task_list = reactive({
                 ceo1: "null",
                 designer2: "null",
             },
-            complexity: 1,
+            complexity: {
+                num: 3,
+                text: "Средняя легкость",
+            },
             reward: {
                 type: "clients",
                 amount: 5,
@@ -48,7 +51,10 @@ let task_list = reactive({
                 designer1: "null",
                 designer2: "null",
             },
-            complexity: 2,
+            complexity: {
+                num: 6,
+                text: "Сложная",
+            },
             reward: {
                 type: "income",
                 amount: 5000,
