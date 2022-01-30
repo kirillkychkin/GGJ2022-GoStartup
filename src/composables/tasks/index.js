@@ -5,6 +5,7 @@ import employeeTypes from '@/composables/employee/employeeTypes'
 const { employee_types } = employeeTypes()
 
 import useCompany from '@/composables/company'
+
 const { state_company } = useCompany()
 
 function getTasks(stage) {
@@ -19,8 +20,29 @@ function getTasks(stage) {
     return tasklist
 }
 
-function checkTask(employeesOrig, needed_employees) {
-    console.log(employeesOrig)
+function checkTasks() {
+    let valid = true
+    for(let task in state_company.performed_tasks) {
+        let curr_task = state_company.performed_tasks[task]
+        curr_task.required_roles.forEach(role => {
+            let emp = curr_task.assigned_employees[role]
+            if(emp == "null") {
+                valid = false
+            } else {
+                console.log(emp)
+                let tier = parseInt(role.substring(role.length-1))
+                if (tier > emp.tier) {
+                    valid = false
+                }
+            }
+        })
+        if(valid) {
+            curr_task.is_performed = true
+        } else {
+            curr_task.is_performed = false
+        }
+    }
+    return valid
     /*
     let employees = [...employeesOrig]
     let required_roles = []
@@ -59,7 +81,6 @@ function checkTask(employeesOrig, needed_employees) {
             }
         }
     }
-    */
    needed_employees = []
     if(needed_employees.length) {
         return {
@@ -71,6 +92,7 @@ function checkTask(employeesOrig, needed_employees) {
             can_do: true
         }
     }
+    */
 }
 
 function finishTask(task) {
@@ -80,7 +102,10 @@ function finishTask(task) {
 
 function chooseTask(task, add) {
     if(add) {
-        let check_result = checkTask(state_company.employees, task.required_roles) 
+        state_company.performed_tasks[task.code_name] = task
+        task.active = true
+        /*
+        let check_result = checkTask(state_company.employees, task) 
         if(check_result.can_do) {
             state_company.performed_tasks[task.code_name] = task
             task.active = true
@@ -91,6 +116,7 @@ function chooseTask(task, add) {
             })
             alert(desc)
         }
+        */
     } else {
         delete state_company.performed_tasks[task.code_name]
         task.active = false
@@ -104,9 +130,11 @@ function getPerformedTasks() {
 
 function doTasks() {
     for(let task in state_company.performed_tasks) {
-        ++state_company.performed_tasks[task].progress
-        if(state_company.performed_tasks[task].progress == state_company.performed_tasks[task].time) {
-            finishTask(task)
+        if(state_company.performed_tasks[task].is_performed) {
+            ++state_company.performed_tasks[task].progress
+            if(state_company.performed_tasks[task].progress == state_company.performed_tasks[task].time) {
+                finishTask(task)
+            }
         }
     }
 }
@@ -117,5 +145,6 @@ export default function() {
         chooseTask,
         getPerformedTasks,
         doTasks,
+        checkTasks,
     }
 }

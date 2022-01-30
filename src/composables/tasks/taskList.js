@@ -11,6 +11,7 @@ let task_list = reactive({
             time: 2,
             progress: 0,
             additional_expenses: 0,
+            is_performed: true,
             required_roles: [
                 "ceo1",
                 "designer2",
@@ -36,6 +37,7 @@ let task_list = reactive({
             time: 3,
             progress: 0,
             additional_expenses: 500,
+            is_performed: true,
             required_roles: [
                 "marketer1",
                 "designer1",

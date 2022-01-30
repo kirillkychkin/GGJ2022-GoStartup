@@ -32,9 +32,6 @@ function pickEmployee(emp) {
 
             state_choose.stage = state_choose.task.stage
             state_choose.assigned = state_choose.role
-            console.log(emp)
-        } else {
-            console.log("Ну и иди лесом")
         }
     }
 
