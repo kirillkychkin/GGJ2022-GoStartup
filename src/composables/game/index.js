@@ -27,10 +27,15 @@ function nextTick() {
             doTasks()
         }
     }
-    if(state_stages[state_game.stage].objective_amount == state_stages[state_game.stage].objective_progress) {
+    if(state_stages[state_game.stage].objective_amount <= state_stages[state_game.stage].objective_progress) {
         if(!state_stages[state_game.stage].compose) {
             state_game.stage = state_stages[state_game.stage].next
             alert("Поздравляем! Новая стадия игры: " + state_stages[state_game.stage].name)
+        } else {
+            if(state_stages[state_game.stage].objective_another_amount <= state_stages[state_game.stage].objective_another_progress) {
+                state_game.stage = state_stages[state_game.stage].next
+                alert("Поздравляем! Новая стадия игры: " + state_stages[state_game.stage].name)
+            }
         }
     }
 }

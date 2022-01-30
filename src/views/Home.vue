@@ -123,6 +123,14 @@
               {{ state_game.tick }} ход
             </div>
           </div>
+          <div class="">
+            <h2>
+              Текущий этап: {{ state_stages[state_game.stage].name }}
+            </h2>
+            <p>
+              Цель этапа: {{ state_stages[state_game.stage].objective_name }}
+            </p>
+          </div>
 
         </div>
       </div>
@@ -322,6 +330,8 @@ import useTasks from '@/composables/tasks'
 import useGame from "@/composables/game"
 import useChoose from "@/composables/choose"
 import useEmployee from "@/composables/employee"
+import useStages from '@/composables/stages'
+const { state_stages } = useStages()
 
 import TaskSlots from '../components/TaskSlots.vue'
 import choose from '../components/choose.vue'
@@ -403,6 +413,7 @@ export default {
       showTask,
       showEmployees,
       state_employees,
+      state_stages,
     }
   },
 }

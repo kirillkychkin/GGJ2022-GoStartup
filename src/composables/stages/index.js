@@ -3,7 +3,7 @@ import { reactive } from "vue"
 const state_stages = reactive({
     stage0: {
         name: "Подготовка",
-        objective_name: "Выполнить 2 таска",
+        objective_name: "Выполнить 2 основных таска",
         objective_amount: 2,
         objective_progress: 0,
         objective_type: "task",
@@ -20,9 +20,10 @@ const state_stages = reactive({
         objective_another_amount: 3,
         objective_another_progress: 0,
         compose: true,
+        next: "stage2",
     },
     stage2: {
-        name: "Исследование",
+        name: "Продукт",
         objective_name: "Выполнить 2 таска",
         objective_amount: 2,
         objective_progress: 0,

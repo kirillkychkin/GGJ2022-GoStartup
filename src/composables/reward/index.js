@@ -133,11 +133,22 @@ function calculateReward(task,diff) {
         state_company.balance += reward.amount
         state_company.share -= reward.share_change
         state_company.investors_share += reward.share_change
+    } else if(reward.type == "capitilize") {
+        state_company.capitalization += reward.amount
+        state_company.share -= reward.share_change
+        state_company.investors_share += reward.share_change
     }
     
     if(task.stage == "stage0") {
         ++state_stages.stage0.objective_progress
         console.log(state_stages.stage0)
+    } else if(task.stage == "stage1") {
+        if(task.type != "minor") {
+            ++state_stages.stage1.objective_another_progress
+        }
+        if(reward.type == "capitilize") {  
+            state_stages.stage1.objective_progress+=reward.amount
+        }
     }
 
     delete state_company.performed_tasks[task.code_name]
