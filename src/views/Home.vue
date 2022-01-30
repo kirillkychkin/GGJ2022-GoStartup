@@ -89,6 +89,12 @@
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
               Выполняет: {{ employee.assigned_task }}
+              <div v-if="employee.promotion.can_promote">
+                Стоимость повышения: {{ employee.promotion.cost }}
+                <button @click="promoteEmployee(employee,state_company)">
+                  Повысить
+                </button>
+              </div>
             </div>
           </div>
           <div class="flex">
@@ -98,6 +104,12 @@
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
               Выполняет: {{ employee.assigned_task }}
+              <div v-if="employee.promotion.can_promote">
+                Стоимость повышения: {{ employee.promotion.cost }}
+                <button @click="promoteEmployee(employee,state_company)">
+                  Повысить
+                </button>
+              </div>
             </div>
           </div>
           <div class="flex">
@@ -107,6 +119,12 @@
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
               Выполняет: {{ employee.assigned_task }}
+              <div v-if="employee.promotion.can_promote">
+                Стоимость повышения: {{ employee.promotion.cost }}
+                <button @click="promoteEmployee(employee,state_company)">
+                  Повысить
+                </button>
+              </div>
             </div>
           </div>
           <div class="flex">
@@ -116,6 +134,12 @@
               Зарплата: {{ employee.salary }} <br/>
               Уровень: {{ employee.tier }} <br/>
               Выполняет: {{ employee.assigned_task }}
+              <div v-if="employee.promotion.can_promote">
+                Стоимость повышения: {{ employee.promotion.cost }}
+                <button @click="promoteEmployee(employee,state_company)">
+                  Повысить
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -176,6 +200,7 @@ import useCompany from '@/composables/company'
 import useTasks from '@/composables/tasks'
 import useGame from "@/composables/game"
 import useChoose from "@/composables/choose"
+import useEmployee from "@/composables/employee"
 
 import TaskSlots from '../components/TaskSlots.vue'
 import choose from '../components/choose.vue'
@@ -184,6 +209,7 @@ const { state_company } = useCompany()
 const { getTasks, chooseTask, getPerformedTasks } = useTasks()
 const { state_game, nextTick } = useGame()
 const { state_choose } = useChoose()
+const { promoteEmployee } = useEmployee()
 
 export default {
   name: 'Home',
@@ -226,6 +252,7 @@ export default {
       developers,
 
       state_choose,
+      promoteEmployee,
     }
   },
 }

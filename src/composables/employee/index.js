@@ -15,13 +15,23 @@ function hireEmployee(emp) {
         type: employee_types[emp].type,
         role: employee_types[emp].role,
         id: generateHash(),
-        assigned_task: "null"
+        assigned_task: "null",
+        promotion: employee_types[emp].promotion,
     }
     return employee
 }
 
+function promoteEmployee(emp,company) {
+    emp.type = emp.promotion.next_type
+    emp.tier = emp.promotion.next_tier
+    company.balance = company.balance - emp.promotion.cost
+    emp.salary = employee_types[emp.type].salary
+    emp.promotion = employee_types[emp.type].promotion
+}
+
 export default function() {
     return {
-        hireEmployee
+        hireEmployee,
+        promoteEmployee,
     }
 }
